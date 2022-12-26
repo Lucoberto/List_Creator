@@ -1,30 +1,34 @@
+
 # Global variables
-countLine = 0
 lista = []
 
 # Text request
 def listText():
     lista = input('Start your list ~> ')
-    inputInFile(lista)
-
+    if lista == 'exit':
+        exit()
+    elif lista == 'del':
+        deleteInFile()
+    else:
+        inputInFile(lista)
 
 # Write in the list
 def inputInFile(lista):
     global countLine
-    countLine += 1
     saveList = open('list.sv','a')
-    saveList.writelines(f'{countLine} ' + str(lista) + '\n')
+    saveList.writelines('[] ' + str(lista) + '\n')
     saveList.close()
-    deleteInFile()
+    listText()
 
 # Delete list elements
 def deleteInFile():
+    global lista
+    lista.clear()
     listElement = open('list.sv','r')
     DeleteElements = listElement.readlines()
 
 # While to remove lines
     for Line in DeleteElements:
-        global lista
         lista.append(Line)
         print(lista)
     
@@ -38,7 +42,8 @@ def deleteInFile():
 def addingAgain(lista):
     addAgain = open('list.sv', 'w')
     for line in lista:
-        addAgain.writelines(line)
+        addAgain.write(line)
     addAgain.close()
 
-listText()
+while True:
+    listText()
